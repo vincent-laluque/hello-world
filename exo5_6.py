@@ -40,7 +40,7 @@ while (indice < len(uneChaine)):
 print(uneAutreChaine)
 
 
-uneChaine = "zorglub"
+uneChaine = "radar"
 uneAutreChaine = ""
 
 indice = 0
@@ -50,4 +50,7 @@ while (indice < len(uneChaine)):
     
 print(uneAutreChaine)
 
-
+if (uneChaine == uneAutreChaine):
+    print("palindrome")
+else:
+    print("pas palindrome")
