@@ -11,7 +11,7 @@ k = 0
 while (k < 9):
 
     down()
-    etoile5(largeur,"red",180)
+    etoile5(largeur,"red",0)
     up()
     forward(largeur+10)
     down()
