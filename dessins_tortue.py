@@ -29,6 +29,15 @@ def triangle(taille, couleur, angle):
         right(120)
         c += 1
 
+def trianglehaut(taille, couleur, angle):
+    color(couleur)
+    left(angle)
+    c = 0
+    while c < 3:
+        forward(taille)
+        left(120)
+        c += 1
+
 def etoile5(taille, couleur, angle):
     color(couleur)
     left(angle)
