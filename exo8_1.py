@@ -8,6 +8,8 @@ def drawline():
     "Tracé d'une ligne dans le canevas can1"
     global x1, y1, x2, y2, coul
     can1.create_line(x1,y1,x2,y2,width=2,fill=coul)
+    # modification des coordonnées pour la ligne suivante:
+    y2, y1 = y2+10, y1-10
 
 def changecolor():
     "Changement aléatoire de la couleur du tracé"
@@ -21,6 +23,7 @@ def changecolor():
 
 # Programme principal
 x1, y1, x2, y2 = 10, 190, 190, 10
+#x1, y1, x2, y2 = 10, 100, 190, 100
 coul = 'dark green'
 
 # Création du widget principal ("maître"):
