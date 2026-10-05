@@ -17,7 +17,7 @@ def drawCircle(x1,y1,x2,y2,coul):
 # Ovals, mathematically, are ellipses, including circles as a special case. 
 # The ellipse is fit into a rectangle defined by the coordinates (x0, y0) of the top left corner 
 # and the coordinates (x1, y1) of a point just outside of the bottom right corner. 
-    zone.create_oval(x1,y1,x2,y2,outline=coul,width=3)
+    zone.create_oval(x1,y1,x2,y2,outline=coul,width=6)
 
 def drawCircles():
     "Tracé des cinq anneaux"
