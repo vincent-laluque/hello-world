@@ -100,3 +100,9 @@ htmlcov/
 
 # pyenv
 # .python-version
+
+node_modules/
+package-lock.json
+package.json
+*.sublime-project
+*.sublime-workspace

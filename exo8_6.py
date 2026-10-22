@@ -4,9 +4,9 @@ from tkinter import *
 from random import randrange
 
 # définition des fonctions gestionnaire d'événements
-def drawline(x1,y1,x2,y2):
+def drawline():
     "Tracé d'une ligne dans le canevas can1"
-    x1, y1, x2, y2 = 10, 190, 190, 10
+    global x1, x2, y1, y2
     global coul
     can1.create_line(x1,y1,x2,y2,width=2,fill=coul)
     # modification des coordonnées pour la ligne suivante:
@@ -37,8 +37,7 @@ can1.pack(side=LEFT)
 bou1 = Button(fen1, text='Quitter', command = fen1.quit) # fen1.quit() fait quitter le réceptionnaire d'événements (mainloop) associé à fen1
 bou1.pack(side=BOTTOM)
 
-bou2 = Button(fen1, text='Tracer une ligne', command = drawline(x1,y1,x2,y2))
-y2, y1 = y2+10, y1-10
+bou2 = Button(fen1, text='Tracer une ligne', command = drawline)
 
 bou2.pack()
 

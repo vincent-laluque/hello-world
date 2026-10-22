@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<style>
+  body { margin: 2cm; }
+  pre {
+    font-family: "Anonymous Pro", monospace;
+    font-size: 11pt;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+</style></head><body>
+<pre>&lt;?php
+//  ████  ██████  ████  █████  ██████
+// ██   █ █ ██ █ ██  ██ ██  ██ █ ██ █
+//   ██     ██   ██████ █████    ██
+// █   ██   ██   ██  ██ ██  ██   ██
+//  ████   ████  ██  ██ ██  ██  ████
+?&gt;
+
+&lt;?php $f=$fpfx.DIR_CLICOM.&#x27;stuff_open.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+
+&lt;!doctype html&gt;
+&lt;html lang=&quot;&lt;?=$__app_language_current?&gt;&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;&lt;?=aconstant(&#x27;APP_DOMAIN_STXT&#x27;).aconstant(&#x27;COLL_CHR&#x27;).aconstant(&#x27;STR_relateddat_act&#x27;)?&gt;&lt;/title&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+
+&lt;?php
+// ████  ██  ██ █████  ██  ██ ██████
+//  ██   ███ ██ ██  ██ ██  ██ █ ██ █
+//  ██   ██████ █████  ██  ██   ██
+//  ██   ██ ███ ██     ██  ██   ██
+// ████  ██  ██ ██      ████   ████
+?&gt;
+
+&lt;?php
+
+	$can_do=true;
+
+	$dat_cd=_ArrayGetValueFromIndex($_GET,&#x27;dat_cd&#x27;); // current data
+
+	$genlst_main_sto_key=APP_VERSION_STXT.&quot;_{$dat_cd}&quot;; // local storage for tbl
+	$genlst_gensrh_sto_key=&quot;{$genlst_main_sto_key}_flt&quot;; // local storage for flt
+	$genlst_gensrh_frq=1000; // N ms between two searches
+?&gt;
+
+
+&lt;?php
+//  ████   ████   ████
+// ██  ██ ██   █ ██   █
+// ██       ██     ██
+// ██  ██ █   ██ █   ██
+//  ████   ████   ████
+?&gt;
+
+&lt;style&gt;
+&lt;?php $f=$fpfx.DIR_ROOT_CSS.&#x27;main_ROO.css.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+&lt;?php $f=$fpfx.DIR_CLICOM_CSS.&#x27;main_COM.css.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+&lt;?php $f=$fpfx.DIR_CLIAPP_CSS.&#x27;main_APP.css.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+&lt;/style&gt;
+
+&lt;script&gt;
+
+&lt;?php
+//  ████  ████    ████  █████   ████  ████    ████
+// ██      ██    ██  ██ ██  ██ ██  ██  ██    ██   █
+// ██ ███  ██    ██  ██ █████  ██████  ██      ██
+// ██  ██  ██ ██ ██  ██ ██  ██ ██  ██  ██ ██ █   ██
+//  ████  ██████  ████  █████  ██  ██ ██████  ████
+?&gt;
+
+	&lt;?php
+
+	$dat_cd_arr=array
+	(
+	&#x27;anomal&#x27;,
+	&#x27;categexp&#x27;,
+	&#x27;countr&#x27;,
+	&#x27;currenc&#x27;,
+	&#x27;donor&#x27;,
+	&#x27;languag&#x27;,
+	&#x27;partner&#x27;,
+	&#x27;phase&#x27;,
+	&#x27;staff&#x27;,
+	&#x27;target&#x27;,
+	&#x27;teamlea&#x27;,
+	);
+
+	$table_name_arr=array
+	(
+	&#x27;anomal&#x27;   =&gt;&#x27;_anomref&#x27;,
+	&#x27;categexp&#x27; =&gt;&#x27;_categexp&#x27;,
+	&#x27;countr&#x27;   =&gt;&#x27;_countr&#x27;,
+	&#x27;currenc&#x27;  =&gt;&#x27;_currenc&#x27;,
+	&#x27;donor&#x27;    =&gt;&#x27;_donor&#x27;,
+	&#x27;languag&#x27;  =&gt;&#x27;_languag&#x27;,
+	&#x27;partner&#x27;  =&gt;&#x27;_partner&#x27;,
+	&#x27;phase&#x27;    =&gt;&#x27;_phase&#x27;,
+	&#x27;staff&#x27;    =&gt;&#x27;_staff&#x27;,
+	&#x27;target&#x27;   =&gt;&#x27;_target&#x27;,
+	&#x27;teamlea&#x27;  =&gt;&#x27;_teamlea&#x27;,
+	);
+
+	$table_view_arr=array
+	(
+	&#x27;anomal&#x27;   =&gt;&#x27;view_anomref_depy&#x27;,
+	&#x27;categexp&#x27; =&gt;&#x27;view_categexp_depy&#x27;,
+	&#x27;countr&#x27;   =&gt;&#x27;view_countr_depy&#x27;,
+	&#x27;currenc&#x27;  =&gt;&#x27;view_currenc_depy&#x27;,
+	&#x27;donor&#x27;    =&gt;&#x27;view_donor_depy&#x27;,
+	&#x27;languag&#x27;  =&gt;&#x27;view_languag_depy&#x27;,
+	&#x27;partner&#x27;  =&gt;&#x27;view_partner_depy&#x27;,
+	&#x27;phase&#x27;    =&gt;&#x27;view_phase_depy&#x27;,
+	&#x27;staff&#x27;    =&gt;&#x27;view_staff_depy&#x27;,
+	&#x27;target&#x27;   =&gt;&#x27;view_target_depy&#x27;,
+	&#x27;teamlea&#x27;  =&gt;&#x27;view_teamlea_depy&#x27;,
+	);
+
+	if(!in_array($dat_cd,$dat_cd_arr))
+	{
+		$can_do=false;
+	}
+	else
+	{
+		$table_name=_ArrayGetValueFromIndex($table_name_arr,$dat_cd);
+		$table_view=_ArrayGetValueFromIndex($table_view_arr,$dat_cd);
+	}
+
+	?&gt;
+
+	// js globals
+	var gbl_gentbl; // handle
+	let srh_fn=null; // continous search fn
+	let srh_old_val=&#x27;&#x27;; // continous search (last val)
+
+&lt;/script&gt;
+
+&lt;/head&gt;
+
+
+&lt;?php
+//  ████   ████  ██  ██ ██████ ██████ ██  ██ ██████
+// ██  ██ ██  ██ ███ ██ █ ██ █ ██     ███ ██ █ ██ █
+// ██     ██  ██ ██████   ██   █████  ██████   ██
+// ██  ██ ██  ██ ██ ███   ██   ██     ██ ███   ██
+//  ████   ████  ██  ██  ████  ██████ ██  ██  ████
+?&gt;
+
+&lt;body class=&quot;uk-height-1-1&quot;&gt;
+
+&lt;?php $f=$fpfx.DIR_CLICOM.&#x27;panel_left.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+&lt;?php $f=$fpfx.DIR_CLICOM.&#x27;panel_right.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+
+&lt;!-- background area --&gt;
+&lt;div class=&quot;uk-background-default uk-padding-medium&quot;&gt;
+
+	&lt;?php $f=$fpfx.DIR_CLICOM.&#x27;header_top.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+
+	&lt;!-- main area --&gt;
+	&lt;div class=&quot;uk-background-default uk-padding-medium uk-padding-remove-horizontal&quot;&gt;
+
+		&lt;?php if($__session_logged_in &amp;&amp; $can_do) { ?&gt;
+
+		&lt;div class=&quot;uk-flex uk-flex-middle uk-padding-small uk-padding-remove-horizontal list_header&quot;&gt;
+
+			&lt;div class=&quot;uk-flex uk-width-1-2 uk-flex-middle uk-flex-left uk-padding-small_DIS uk-padding-remove-vertical_DIS&quot;&gt;
+				&lt;div id=&quot;genlst_head_lb&quot;&gt;&lt;/div&gt;
+				&lt;div&gt;&lt;badge_CNT id=&quot;genlst_recs_nbr_all&quot; style=&quot;margin-left:30px;&quot;&gt;0&lt;/badge_CNT&gt;&lt;/div&gt;
+				&lt;div&gt;&lt;button id=&quot;genlst_refresh_btn&quot; class=&quot;icn_btn icn_btn_margl icn_refresh&quot; &lt;?=_UKTooltip(aconstant(&#x27;STR_refresh_tip&#x27;,false))?&gt; &gt;&lt;/button&gt;&lt;/div&gt;
+			&lt;/div&gt;
+
+			&lt;div class=&quot;uk-flex uk-width-1-2 uk-flex-middle uk-flex-middle&quot;&gt;
+				&lt;div class=&quot;uk-padding-small-left&quot;&gt;
+					&lt;a href=&quot;_gets.php?&lt;?=$__sid?&gt;&amp;fn=related_upd&amp;add=1&quot; class=&quot;uk-button uk-button-small uk-button-primary&quot;&gt;&lt;?=aconstant(&#x27;STR_add_act&#x27;,false)?&gt;&lt;/a&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+
+			&lt;div class=&quot;uk-flex uk-width-1-2 uk-flex-middle uk-flex-right&quot;&gt;
+				&lt;div class=&quot;uk-padding-small-left&quot;&gt;
+
+					&lt;div class=&quot;uk-inline uk-width-small@xs uk-width-medium@s&quot;&gt;
+						&lt;button type=&quot;button&quot; class=&quot;uk-form-icon&quot; uk-icon=&quot;icon:search&quot; id=&quot;genlst_gensrh_man_btn&quot; aria-label=&quot;&lt;?=aconstant(&#x27;STR_search_act&#x27;,false)?&gt;&quot; &lt;?=_UKTooltip(aconstant(&#x27;STR_gsearchval_act&#x27;,false))?&gt;&gt;&lt;/button&gt;
+						&lt;button type=&quot;button&quot; class=&quot;uk-form-icon uk-form-icon-flip&quot; uk-icon=&quot;icon:close&quot; id=&quot;genlst_gensrh_clr_btn&quot; aria-label=&quot;&lt;?=aconstant(&#x27;STR_search_act&#x27;,false)?&gt;&quot; &lt;?=_UKTooltip(aconstant(&#x27;STR_gsearchcan_act&#x27;,false))?&gt;&gt;&lt;/button&gt;
+						&lt;input id=&quot;genlst_gensrh_inp&quot; class=&quot;uk-input&quot; type=&quot;search&quot; placeholder=&quot;&lt;?=aconstant(&#x27;STR_field_cd_or_lb&#x27;,false)?&gt;&quot; aria-label=&quot;&lt;?=aconstant(&#x27;STR_search_act&#x27;,false)?&gt;&quot;&gt;
+					&lt;/div&gt;
+
+				&lt;/div&gt;
+			&lt;/div&gt;
+
+		&lt;/div&gt;
+
+
+		&lt;div class=&quot;uk-flex-top uk-grid-small&quot; uk-grid&gt;
+			&lt;div class=&quot;uk-width-1-1&quot;&gt;
+				&lt;div id=&quot;gentbl&quot; class=&quot;is-striped is-narrow_DIS&quot; style=&quot;max-width:calc(100vw - 50px);max-height:calc(100vh - 225px);&quot;&gt;&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;?php } ?&gt;
+
+	&lt;/div&gt;
+	&lt;!-- main area --&gt;
+
+&lt;/div&gt;
+&lt;!-- background area --&gt;
+
+
+
+&lt;?php
+
+?&gt;
+
+
+&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;
+//──────────────────────────────────────
+&lt;?php
+// █████  ██████  ████  █████  ██  ██
+// ██  ██ ██     ██  ██ ██  ██ ██  ██
+// █████  █████  ██████ ██  ██  ████
+// ██  ██ ██     ██  ██ ██  ██   ██
+// ██  ██ ██████ ██  ██ █████    ██
+?&gt;
+
+$(document).ready(function(e)
+{
+
+	// init
+	lst_init();
+});
+//──────────────────────────────────────
+
+&lt;?php
+// █████   ████  ██████ ████    ████  ██████
+// ██  ██ ██  ██ █ ██ █  ██    ██   █ █ ██ █
+// ██  ██ ██████   ██    ██      ██     ██
+// ██  ██ ██  ██   ██    ██ ██ █   ██   ██
+// █████  ██  ██  ████  ██████  ████   ████
+?&gt;
+
+//──────────────────────────────────────
+$(document).on(&#x27;click&#x27;,&#x27;#genlst_refresh_btn&#x27;,function(e)
+{
+	genlst_refresh();
+});
+//──────────────────────────────────────
+function lst_init()
+{
+	const br=&#x27;&lt;br /&gt;&#x27;;
+
+	// load gensrh
+	srh_old_val=genlst_gensrh_loa();
+	$(&#x27;#genlst_gensrh_inp&#x27;).val(srh_old_val);
+
+	// init table
+	gbl_gentbl=new Tabulator(&#x27;#gentbl&#x27;,
+	{
+		// maxHeight: &quot;calc(100vh - 225px)&quot;, // essential alt : &quot;calc(100vh - 200px)&quot;
+		maxHeight:&#x27;calc(100vh - 225px)&#x27;,
+
+		persistenceID:&#x27;&lt;?=$genlst_main_sto_key?&gt;&#x27;,
+		persistenceMode:true, // localdb then cookies
+		persistence:
+		{
+			sort:true, //persist column sorting
+			filter:true, //persist filters
+			headerFilter:true, //persist header filters
+			group:true, //persist row grouping
+			page:true, //persist page
+			// columns:true, //persist columns
+		},
+		// persistence:false,
+
+		// layout:&#x27;fitData&#x27;,
+		// layout:&#x27;fitDataFill&#x27;,
+		// layout:&#x27;fitDataStretch&#x27;,
+		layout:&#x27;fitDataTable&#x27;,
+		// layout:&#x27;fitColumns&#x27;,
+		// layoutColumnsOnNewData:true,
+
+		// data:test1_dat,
+		// autoColumns:true,
+
+		popupContainer:true,
+
+		ajaxURL:&#x27;_posta.php?&lt;?=$__sid?&gt;&amp;fn=related_lst_exe&#x27;,
+		ajaxParams:
+		{
+			db_name:&#x27;&lt;?=$__db_name?&gt;&#x27;,
+			dat_cd:&#x27;&lt;?=$dat_cd?&gt;&#x27;,
+			max_rec:250,
+			// gen_srh:$(&#x27;#genlst_gensrh_inp&#x27;).val(),
+		},
+		ajaxConfig:&#x27;POST&#x27;,
+		ajaxContentType:&#x27;form&#x27;,
+
+		ajaxProgressiveLoad:&#x27;scroll&#x27;,
+
+		// before the ajax is called
+		ajaxRequesting: function(url,params)
+		{
+			// $(&#x27;#genlst_recs_nbr_all&#x27;).removeClass(&#x27;borderblinker&#x27;);
+			// console.log(&#x27;ajaxRequesting&#x27;);
+			// $(&#x27;#genlst_recs_nbr_all&#x27;).css(&#x27;animation&#x27;,&#x27;none&#x27;);
+			// $(&#x27;#genlst_recs_nbr_all&#x27;).outerWidth();
+			$(&#x27;#genlst_recs_nbr_all&#x27;).addClass(&#x27;borderblinker&#x27;).one(&#x27;animationend&#x27;,function() { $(this).removeClass(&#x27;borderblinker&#x27;); });
+
+			// $(&#x27;#genlst_recs_nbr_all&#x27;).addClass(response.lst_recs_nbr_all);
+		},
+
+		// after the ajax has been called
+		ajaxResponse:function(url,params,response)
+		{
+			// console.log(&#x27;ajaxResponse&#x27;);
+			$(&#x27;#genlst_recs_nbr_all&#x27;).html(response.recs_nbr_all);
+			$(&#x27;#genlst_head_lb&#x27;).html(response.head_lb);
+			return(response);
+		},
+
+
+		sortMode:&#x27;remote&#x27;,
+		filterMode:&#x27;remote&#x27;,
+		filterDelay:200,
+		allowEmpty:true,
+
+
+		progressiveLoad:&#x27;scroll&#x27;,
+		// progressiveLoadDelay:200,
+		progressiveLoadScrollMargin:300, // in px
+		paginationSize:150, // in rows - remove local storage to enable
+		// horiz pages
+		// pagination:true,
+		// paginationMode:&#x27;remote&#x27;,
+		// paginationSize:50, // in rows
+		placeholder:&#x27;&lt;?=aconstant(&#x27;STR_none&#x27;,false) ?&gt;&#x27;,
+
+		// selectableRows:true,
+
+		rowHeader: // checkboxes cfg
+		{
+			headerSort:false,
+			resizable:false,
+			frozen:true,
+			width:50,
+			headerHozAlign:&#x27;center&#x27;,
+			hozAlign:&#x27;center&#x27;,
+			formatter:&#x27;rowSelection&#x27;,
+			titleFormatter:&#x27;rowSelection&#x27;,
+			// cellClick:function(e,cell_obj)
+			// {
+			// 	cell_obj.getRow().toggleSelect();
+			// }
+		},
+
+		initialSort:
+		[
+			{ column:&#x27;place&#x27;, dir:&#x27;asc&#x27;},
+			{ column:&#x27;cd&#x27;, dir:&#x27;asc&#x27;},
+			{ column:&#x27;id&#x27;, dir:&#x27;asc&#x27;},
+		],
+
+		columns:
+		[
+			{	field:&#x27;id&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_id_fld&#x27;,false) ?&gt;&#x27;,
+				width:80,
+				minWidth:80,
+				maxWidth:120,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;cd&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_cd_fld&#x27;,false) ?&gt;&#x27;,
+				width:120,
+				minWidth:120,
+				maxWidth:160,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;lb&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_lb_fld&#x27;,false) ?&gt;&#x27;,
+				width:240,
+				minWidth:240,
+				maxWidth:280,
+				hozAlign:&#x27;left&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;place&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_placeS_fld&#x27;,false) ?&gt;&#x27;,
+				width:80,
+				minWidth:80,
+				maxWidth:120,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;color&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_colorS_fld&#x27;,false) ?&gt;&#x27;,
+				width:60,
+				minWidth:60,
+				maxWidth:80,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:false,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;cond&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_cond_fld&#x27;,false) ?&gt;&#x27;,
+				width:120,
+				minWidth:120,
+				maxWidth:160,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:false,
+				headerHozAlign:&#x27;center&#x27;,
+
+				headerFilter:_Tbltr_filter_build.bind(null,&#x27;cond_flt&#x27;,&#x27;uk-select uk-form-xsmall uk-text-light_DIS&#x27;,&#x27;simple&#x27;), // simple / multiple
+				headerFilterLiveFilter:false,
+				headerFilterParams:
+				{
+					values:
+					[
+						{value:&#x27;1ENA&#x27;,label:&quot;&lt;?=_cond2Label(&#x27;1ENA&#x27;)?&gt;&quot;},
+						{value:&#x27;2HID&#x27;,label:&quot;&lt;?=_cond2Label(&#x27;2HID&#x27;)?&gt;&quot;},
+						{value:&#x27;3DIS&#x27;,label:&quot;&lt;?=_cond2Label(&#x27;3DIS&#x27;)?&gt;&quot;},
+					],
+				},
+			},
+
+			{	field:&#x27;mission_nb&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_mission_nbrS2L_fld&#x27;,false) ?&gt;&#x27;,
+				width:120,
+				minWidth:120,
+				maxWidth:150,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;expend_nb&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_expend_nbrS2L_fld&#x27;,false) ?&gt;&#x27;,
+				width:120,
+				minWidth:120,
+				maxWidth:150,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;upd_dat_rel&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_upd_dateS_fld&#x27;,false) ?&gt;&#x27;,
+				width:110,
+				minWidth:110,
+				maxWidth:150,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;add_dat_rel&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_add_dateS_fld&#x27;,false) ?&gt;&#x27;,
+				width:110,
+				minWidth:110,
+				maxWidth:150,
+				hozAlign:&#x27;center&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+			},
+
+			{	field:&#x27;upd_usr&#x27;,
+				title:&#x27;&lt;?=aconstant(&#x27;STR_upd_origin_fld&#x27;,false) ?&gt;&#x27;,
+				width:180,
+				minWidth:180,
+				maxWidth:220,
+				hozAlign:&#x27;left&#x27;,
+				vertAlign:&#x27;middle&#x27;,
+				variableHeight:true,
+				multiline:true,
+				cssClass:&#x27;tab_cell_wrap_DIS&#x27;,
+				formatter:&#x27;html&#x27;,
+				headerSort:true,
+				headerHozAlign:&#x27;center&#x27;,
+
+				headerFilter:_Tbltr_filter_build.bind(null,&#x27;upd_usr_flt&#x27;,&#x27;uk-select uk-form-xsmall uk-text-light_DIS&#x27;,&#x27;simple&#x27;), // simple / multiple
+				headerFilterLiveFilter:false,
+				headerFilterParams:
+				{
+					values:[ &lt;?=_GetDistinctList($table_view,&#x27;lst_lv&#x27;,&quot;select distinct &#x27;&#x27; as k,upd_usr as v from {$table_view} where (upd_usr!=&#x27;&#x27;) order by upd_usr&quot;)?&gt; ], // [ {label:&quot;lb1&quot;,value:&quot;cd1&quot;}, {label:&quot;lb2&quot;,value:&quot;cd2&quot;} ]
+				},
+			},
+		], /* columns */
+
+	}); /* Tabulator */
+
+	// before the table is built
+	gbl_gentbl.on(&#x27;tableBuilding&#x27;,function()
+	{
+		// console.log(&#x27;tableBuilding&#x27;);
+		// $(&#x27;#genlst_gensrh_inp&#x27;).val(genlst_gensrh_loa());
+		gbl_gentbl.setFilter(&#x27;gen_srh&#x27;,&#x27;=&#x27;,$(&#x27;#genlst_gensrh_inp&#x27;).val());
+		// gbl_gentbl.replaceData(&#x27;_posta.php?&amp;fn=related_lst_exe&#x27;,{&#x27;size2&#x27;:150});
+	});
+
+	// after the table has finished building
+	gbl_gentbl.on(&#x27;tableBuilt&#x27;,function()
+	{
+		// console.log(&#x27;tableBuilt&#x27;);
+		// lst_genfilter_display();
+
+		// display selected lines nbr
+		const selhdr_obj=gbl_gentbl.element.querySelector(&#x27;.tabulator-headers .tabulator-col:first-child .tabulator-col-title&#x27;);
+		if(selhdr_obj)
+		{
+			const nbr_obj=document.createElement(&#x27;badge_SEL&#x27;);
+			nbr_obj.id=&#x27;genlst_recs_nbr_sel&#x27;;
+			nbr_obj.style.marginLeft=&#x27;0px&#x27;;
+			const div_obj=document.createElement(&#x27;div&#x27;);
+			div_obj.style.textAlign=&#x27;center&#x27;;
+			div_obj.appendChild(nbr_obj);
+			selhdr_obj.appendChild(div_obj);
+		}
+		genlst_selnbr_set();
+
+	});
+	gbl_gentbl.on(&#x27;rowSelectionChanged&#x27;,function(data,rows)
+	{
+		genlst_selnbr_set();
+	});
+
+}
+//──────────────────────────────────────
+function genlst_selnbr_set()
+{
+	var sel_nb=gbl_gentbl.getSelectedRows().length;
+	$(&#x27;#genlst_recs_nbr_sel&#x27;).html(sel_nb);
+}
+//──────────────────────────────────────
+function genlst_refresh()
+{
+	// _Tbltr_refresh(gbl_gentbl);
+	// Beep();
+	const tbl=gbl_gentbl;
+
+	const holder=tbl.element.querySelector(&#x27;.tabulator-tableholder&#x27;);
+	const scrollTop=holder ? holder.scrollTop : 0;
+
+	tbl.replaceData()
+	.then(()=&gt;
+	{
+		if(holder)
+		{
+			holder.scrollTop=scrollTop;
+		}
+	})
+	.catch(err=&gt;console.error(&#x27;reload failed&#x27;,err));
+}
+//──────────────────────────────────────
+function genlst_gensrh_exe()
+{
+	const new_val=$(&#x27;#genlst_gensrh_inp&#x27;).val().trim();
+	if(new_val!=srh_old_val)
+	{
+		$(&#x27;#genlst_gensrh_inp&#x27;).val(new_val);
+		gbl_gentbl.setFilter(&#x27;gen_srh&#x27;,&#x27;=&#x27;,new_val);
+		// console.log(new_val);
+		// console.log(gbl_gentbl.getFilters());
+		genlst_gensrh_sto(new_val);
+		srh_old_val=new_val;
+		genlst_refresh();
+	}
+}
+//──────────────────────────────────────
+function genlst_gensrh_loa()
+{
+	const gensrh=localStorage.getItem(&#x27;&lt;?=$genlst_gensrh_sto_key?&gt;&#x27;);
+	// if(gensrh!==null)
+	return(gensrh);
+}
+//──────────────────────────────────────
+function genlst_gensrh_sto(val)
+{
+	localStorage.setItem(&#x27;&lt;?=$genlst_gensrh_sto_key?&gt;&#x27;,val);
+}
+//──────────────────────────────────────
+$(&#x27;#genlst_gensrh_man_btn&#x27;).on(&#x27;click&#x27;,function(e)
+{
+	clearTimeout(srh_fn);
+	genlst_gensrh_exe(); // immediate
+});
+//──────────────────────────────────────
+$(&#x27;#genlst_gensrh_inp&#x27;).on(&#x27;input&#x27;,function(e)
+{
+	clearTimeout(srh_fn);
+	srh_fn=setTimeout(genlst_gensrh_exe,&lt;?=$genlst_gensrh_frq?&gt;); // delayed
+});
+//──────────────────────────────────────
+$(document).on(&#x27;keydown&#x27;,function(e)
+{
+	if(e.key===&#x27;Enter&#x27;)
+	{
+		e.preventDefault(); // no default enter fn
+		clearTimeout(srh_fn);
+		genlst_gensrh_exe(); // immediate
+	}
+});
+//──────────────────────────────────────
+$(&#x27;#genlst_gensrh_inp&#x27;).on(&#x27;blur&#x27;,function(e)
+{
+	clearTimeout(srh_fn);
+	srh_fn=setTimeout(genlst_gensrh_exe,&lt;?=$genlst_gensrh_frq?&gt;); // delayed
+});
+//──────────────────────────────────────
+$(&#x27;#genlst_gensrh_clr_btn&#x27;).on(&#x27;click&#x27;,function(e)
+{
+	// const val=&#x27;&#x27;;
+	$(&#x27;#genlst_gensrh_inp&#x27;).val(&#x27;&#x27;);
+	// genlst_gensrh_sto(val);
+	clearTimeout(srh_fn);
+	genlst_gensrh_exe(); // immediate
+});
+//──────────────────────────────────────
+$(document).on(&#x27;keydown&#x27;,function(e)
+{
+	if(e.metaKey &amp;&amp; (e.key===&#x27;f&#x27; || e.key===&#x27;F&#x27;)) // metaKey=cmde/winkey
+	{
+		setTimeout(()=&gt;$(&#x27;#genlst_gensrh_inp&#x27;).focus().select(),100);
+		e.preventDefault(); // no default find dialog
+	}
+});
+&lt;/script&gt;
+
+&lt;?php
+// ██████ ██  ██ █████
+// ██     ███ ██ ██  ██
+// █████  ██████ ██  ██
+// ██     ██ ███ ██  ██
+// ██████ ██  ██ █████
+?&gt;
+
+&lt;?php $f=$fpfx.DIR_CLICOM.&#x27;stuff_close.php&#x27;; if(is_file($f)) @require_once($f); ?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body></html>
